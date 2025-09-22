@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.0](https://github.com/solyren/watashime-api/compare/watashime-v0.0.1...watashime-v0.1.0) (2025-09-22)
+
+
+### 🚀 Features
+
+* **slug:** add sistem scrap slug dari samehadaku ([#5](https://github.com/solyren/watashime-api/issues/5)) ([4a0a987](https://github.com/solyren/watashime-api/commit/4a0a9875f311c040ebce114604293f3fa95c976b))
+
+
+### 📚 Docs
+
+* tester readme.md ([#8](https://github.com/solyren/watashime-api/issues/8)) ([feb4440](https://github.com/solyren/watashime-api/commit/feb4440805ee9fa8270849bbadb6d4b78c33c92c))
+
 ## [0.0.1](https://github.com/solyren/watashime-api/compare/watashime-v0.0.1...watashime-v0.0.1) (2025-09-22)
 
 ### 🚀 Features
