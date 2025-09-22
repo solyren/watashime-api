@@ -1,0 +1,28 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - main   # branch utama tempat release
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release Please
+        uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: node             # bisa node, python, go, dll
+          package-name: my-project       # ganti sesuai nama project
+          pull-request-title-pattern: "release(${branch}): v${version}"
+          changelog-types: >
+            [
+              {"type":"feat","section":"🚀 Features","hidden":false,"references":["issues","pulls"]},
+              {"type":"fix","section":"🐞 Fixes","hidden":false,"references":["issues","pulls"]},
+              {"type":"optimize","section":"⚡ Optimizations","hidden":false,"references":["issues","pulls"]},
+              {"type":"docs","section":"📚 Docs","hidden":false,"references":["issues"]},
+              {"type":"refactor","section":"🧩 Refactors","hidden":false},
+              {"type":"test","section":"✅ Tests","hidden":false},
+              {"type":"style","section":"🎨 Style","hidden":false},
+              {"type":"chore","section":"🛠 Chores","hidden":true}
+            ]
