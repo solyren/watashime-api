@@ -1,7 +1,8 @@
 import { HomeService } from '../services/home.service';
+import { Context } from 'hono';
 
 export class HomeController {
-  static async getHome(c: any) {
+  static async getHome(c: Context) {
     try {
       const page = parseInt(c.req.query('page') || '1', 10);
       console.log(`[HomeController] Request received for page ${page}`);

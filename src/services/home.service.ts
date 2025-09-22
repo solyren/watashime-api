@@ -9,7 +9,10 @@ export class HomeService {
       console.log(`[HomeService] Successfully fetched data for page ${page}`);
       return data;
     } catch (error) {
-      console.error(`[HomeService] Error fetching home data for page ${page}:`, error);
+      console.error(
+        `[HomeService] Error fetching home data for page ${page}:`,
+        error
+      );
       throw error;
     }
   }
