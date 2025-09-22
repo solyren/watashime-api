@@ -15,4 +15,4 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           config-file: .release-please-config.json
           manifest-file: .release-please-manifest.json
-          pull-request-title-pattern: '🚀 Release v${version} (${date})'
+          
