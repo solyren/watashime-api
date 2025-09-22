@@ -14,7 +14,7 @@
         { "type": "style", "section": "🎨 Style", "hidden": false },
         { "type": "chore", "section": "🛠 Chores", "hidden": true }
       ],
-      "pull-request-title-pattern": "🚀 Release v${version} (${date})"
+       "pull-request-title-pattern": "🚀 Release ${component} v${version} (${date}) [${scope}]"
     }
   }
 }
