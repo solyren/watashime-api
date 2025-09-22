@@ -10,9 +10,12 @@
     "build": "bun build ./src/index.ts --outdir ./dist --target bun",
     "start": "bun ./dist/index.js",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix && prettier . --write"
+    "lint:fix": "eslint . --fix && prettier . --write",
+    "scrape:slugs": "bun ./scripts/scrape-slug.ts",
+    "scan": "bun ./scripts/scan-dom.ts"
   },
   "dependencies": {
+    "@upstash/redis": "^1.35.4",
     "cheerio": "1.0.0-rc.12",
     "dotenv": "^17.2.2",
     "hono": "^4.9.8"
