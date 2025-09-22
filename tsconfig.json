@@ -13,7 +13,7 @@
     "lib": ["ESNext"],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "types": ["bun"],
+    "types": ["bun", "node"],
     "rootDir": "./src"
   },
   "include": ["src"]
