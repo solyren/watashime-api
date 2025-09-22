@@ -12,5 +12,7 @@ jobs:
       - name: Run release-please
         uses: googleapis/release-please-action@v4
         with:
-          release-type: node
           token: ${{ secrets.PAT_TOKEN }}
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
+          pull-request-title-pattern: "🚀 Release v${version} (${date})"
