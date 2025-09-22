@@ -1,4 +1,9 @@
 import { Hono } from 'hono';
+import { setupRoutes } from './routes';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 const app = new Hono();
 
@@ -11,6 +16,9 @@ app.get('/', (c) => {
   });
 });
 
+setupRoutes(app);
+
+// -- Logging Server Start --
 console.log('Server berjalan di http://localhost:3000');
 
 export default app;
