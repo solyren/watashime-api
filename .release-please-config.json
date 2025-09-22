@@ -3,7 +3,6 @@
     ".": {
       "package-name": "watashime",
       "release-type": "node",
-      "release-as": "0.0.1",
       "changelog-sections": [
         { "type": "feat", "section": "🚀 Features", "hidden": false },
         { "type": "fix", "section": "🐞 Fixes", "hidden": false },
