@@ -2,7 +2,6 @@ import { Hono } from 'hono';
 import { setupRoutes } from './routes';
 import dotenv from 'dotenv';
 
-// Load environment variables
 dotenv.config();
 
 const app = new Hono();

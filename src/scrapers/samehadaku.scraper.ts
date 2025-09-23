@@ -31,10 +31,8 @@ export class SamehadakuScraper {
         const title = $(element).find('h2.entry-title').text().trim();
         const coverImage = $(element).find('img').attr('src') || '';
 
-        // Extract slug from URL
         const slug = rawSlug.replace(/\/$/, '').split('/').pop() || '';
 
-        // Extract last episode
         let lastEpisode: number | null = null;
         const episodeText = $(element)
           .find('div.dtla span')
