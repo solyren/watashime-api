@@ -13,7 +13,7 @@
         { "type": "style", "section": "🎨 Style", "hidden": false },
         { "type": "chore", "section": "🛠 Chores", "hidden": true }
       ],
-       "pull-request-title-pattern": "🚀 Release ${component} v${version}"
+      "pull-request-title-pattern": "🚀 Release ${component} v${version}"
     }
   }
 }
