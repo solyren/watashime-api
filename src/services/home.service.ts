@@ -1,5 +1,5 @@
 import { SamehadakuScraper } from '../scrapers/samehadaku.scraper';
-import { HomeResponse } from '../types/home.type';
+import type { HomeResponse } from '../types/home.type';
 import { getHomeDataFromCache, saveHomeDataToCache } from './cache-service';
 
 export class HomeService {

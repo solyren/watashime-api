@@ -1,6 +1,7 @@
 import { Redis } from '@upstash/redis';
+
 import { redisConfig } from '../config/redis';
-import { HomeAnime } from '../types/home.type';
+import type { HomeAnime } from '../types/home.type';
 
 // -- Initialize Redis Client --
 let redis: Redis | null = null;

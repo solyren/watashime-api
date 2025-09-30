@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
-import { HomeResponse, HomeAnime } from '../types/home.type';
+
+import type { HomeAnime, HomeResponse } from '../types/home.type';
 
 export class SamehadakuScraper {
   static async scrapeHome(page: number = 1): Promise<HomeResponse> {

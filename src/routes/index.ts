@@ -1,6 +1,7 @@
-import { homeRoutes } from './home.route';
-import { Hono } from 'hono';
+import type { Hono } from 'hono';
 
-export const setupRoutes = (app: Hono) => {
+import { homeRoutes } from './home.route';
+
+export const setupRoutes = (app: Hono): void => {
   homeRoutes(app);
 };

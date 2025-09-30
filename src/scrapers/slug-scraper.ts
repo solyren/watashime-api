@@ -83,6 +83,46 @@ export async function scrapePage(
   return { slugs: [], isEmpty: true };
 }
 
+// -- Process Batch Results --
+function processBatchResults(
+  results: PageResult[],
+  pageBatch: number[],
+  uniqueSlugs: Set<string>,
+  slugMap: Map<string, ScrapedSlug>
+): { hasValidContent: boolean; consecutiveEmptyPages: number } {
+  let hasValidContent = false;
+  let currentConsecutiveEmptyPages = 0;
+
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i];
+    const pageNum = pageBatch[i];
+
+    if (result.isEmpty) {
+      currentConsecutiveEmptyPages++;
+      console.log(
+        `Halaman ${pageNum} kosong. Total halaman kosong berturut-turut: ${currentConsecutiveEmptyPages}`
+      );
+    } else {
+      currentConsecutiveEmptyPages = 0;
+      hasValidContent = true;
+
+      for (const slug of result.slugs) {
+        if (!uniqueSlugs.has(slug.slug)) {
+          uniqueSlugs.add(slug.slug);
+          slugMap.set(slug.slug, slug);
+        }
+      }
+
+      console.log(`Halaman ${pageNum} memiliki ${result.slugs.length} slug`);
+    }
+  }
+
+  return {
+    hasValidContent,
+    consecutiveEmptyPages: currentConsecutiveEmptyPages,
+  };
+}
+
 // -- Scrape All Slugs --
 export async function scrapeAllSlugs(
   concurrentLimit: number = 10,
@@ -93,56 +133,30 @@ export async function scrapeAllSlugs(
 
     const uniqueSlugs = new Set<string>();
     const slugMap = new Map<string, ScrapedSlug>();
-    let currentPage = 1;
+    const currentPage = 1;
     let consecutiveEmptyPages = 0;
     const maxConsecutiveEmptyPages = 5;
 
     while (consecutiveEmptyPages < maxConsecutiveEmptyPages) {
-      const pageBatch = [];
-      for (
-        let i = 0;
-        i < concurrentLimit && consecutiveEmptyPages < maxConsecutiveEmptyPages;
-        i++
-      ) {
-        pageBatch.push(currentPage);
-        currentPage++;
-      }
+      const pageBatch = createPageBatch(
+        currentPage,
+        concurrentLimit,
+        consecutiveEmptyPages,
+        maxConsecutiveEmptyPages
+      );
 
       if (pageBatch.length === 0) break;
 
       console.log(`Memproses halaman: ${pageBatch.join(', ')}`);
 
-      const pagePromises = pageBatch.map((page) =>
-        scrapePage(page, maxRetries)
-      );
-      const results = await Promise.all(pagePromises);
+      const results = await processPageBatch(pageBatch, maxRetries);
 
-      let hasValidContent = false;
-      for (let i = 0; i < results.length; i++) {
-        const result = results[i];
-        const pageNum = pageBatch[i];
+      const {
+        hasValidContent,
+        consecutiveEmptyPages: newConsecutiveEmptyPages,
+      } = processBatchResults(results, pageBatch, uniqueSlugs, slugMap);
 
-        if (result.isEmpty) {
-          consecutiveEmptyPages++;
-          console.log(
-            `Halaman ${pageNum} kosong. Total halaman kosong berturut-turut: ${consecutiveEmptyPages}`
-          );
-        } else {
-          consecutiveEmptyPages = 0;
-          hasValidContent = true;
-
-          for (const slug of result.slugs) {
-            if (!uniqueSlugs.has(slug.slug)) {
-              uniqueSlugs.add(slug.slug);
-              slugMap.set(slug.slug, slug);
-            }
-          }
-
-          console.log(
-            `Halaman ${pageNum} memiliki ${result.slugs.length} slug`
-          );
-        }
-      }
+      consecutiveEmptyPages = newConsecutiveEmptyPages;
 
       if (!hasValidContent) {
         console.log(
@@ -161,4 +175,35 @@ export async function scrapeAllSlugs(
     console.error('Error saat scraping semua slug:', error);
     return [];
   }
+}
+
+// -- Create Page Batch --
+function createPageBatch(
+  currentPage: number,
+  concurrentLimit: number,
+  consecutiveEmptyPages: number,
+  maxConsecutiveEmptyPages: number
+): number[] {
+  const pageBatch = [];
+  let pageCounter = currentPage;
+
+  for (
+    let i = 0;
+    i < concurrentLimit && consecutiveEmptyPages < maxConsecutiveEmptyPages;
+    i++
+  ) {
+    pageBatch.push(pageCounter);
+    pageCounter++;
+  }
+
+  return pageBatch;
+}
+
+// -- Process Page Batch --
+async function processPageBatch(
+  pageBatch: number[],
+  maxRetries: number
+): Promise<PageResult[]> {
+  const pagePromises = pageBatch.map((page) => scrapePage(page, maxRetries));
+  return await Promise.all(pagePromises);
 }

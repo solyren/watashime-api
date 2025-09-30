@@ -1,7 +1,11 @@
-import { logger } from '../utils/logger';
-import { Context, Next } from 'hono';
+import type { Context, Next } from 'hono';
 
-export const loggingMiddleware = async (c: Context, next: Next) => {
+import { logger } from '../utils/logger';
+
+export const loggingMiddleware = async (
+  c: Context,
+  next: Next
+): Promise<void> => {
   const start = Date.now();
   logger(`[Middleware] Request: ${c.req.method} ${c.req.path}`);
 

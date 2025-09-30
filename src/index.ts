@@ -1,6 +1,7 @@
-import { Hono } from 'hono';
-import { setupRoutes } from './routes';
 import dotenv from 'dotenv';
+import { Hono } from 'hono';
+
+import { setupRoutes } from './routes';
 
 dotenv.config();
 

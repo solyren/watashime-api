@@ -1,4 +1,5 @@
 import { Redis } from '@upstash/redis';
+
 import { redisConfig } from '../config/redis';
 
 // -- Initialize Redis Client --
