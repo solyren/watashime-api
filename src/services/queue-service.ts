@@ -28,7 +28,6 @@ export async function addToSlugQueue(slugItem: {
   try {
     const queueKey = 'slugs:queue';
 
-    // Cek apakah slug sudah ada di queue
     const queueSize = await redis.llen(queueKey);
     for (let i = 0; i < queueSize; i++) {
       const item = await redis.lindex(queueKey, i);
@@ -41,7 +40,6 @@ export async function addToSlugQueue(slugItem: {
       }
     }
 
-    // Tambahkan slug ke queue
     await redis.rpush(queueKey, JSON.stringify(slugItem));
     console.log(
       `Berhasil menambahkan slug "${slugItem.title}" (${slugItem.slug}) ke queue`

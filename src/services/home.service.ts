@@ -7,7 +7,6 @@ export class HomeService {
     try {
       console.log(`[HomeService] Fetching home data for page ${page}`);
 
-      // Coba ambil dari cache dulu
       const cachedData = await getHomeDataFromCache(page);
 
       if (cachedData) {
@@ -21,10 +20,8 @@ export class HomeService {
         };
       }
 
-      // Jika tidak ada di cache, lakukan scraping
       const scrapedData = await SamehadakuScraper.scrapeHome(page);
 
-      // Simpan hasil scraping ke cache
       await saveHomeDataToCache(
         page,
         scrapedData.data,

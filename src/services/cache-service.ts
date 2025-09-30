@@ -35,7 +35,6 @@ export async function saveHomeDataToCache(
       timestamp: Date.now(),
     };
 
-    // Simpan dengan expiry 30 menit (1800 detik)
     await redis.setex(cacheKey, 1800, JSON.stringify(cacheData));
     console.log(`Berhasil menyimpan halaman ${page} ke cache`);
     return true;
@@ -92,7 +91,6 @@ export async function saveAnimeDetailToCache(
       timestamp: Date.now(),
     };
 
-    // Simpan dengan expiry 1 jam (3600 detik)
     await redis.setex(cacheKey, 3600, JSON.stringify(cacheData));
     console.log(`Berhasil menyimpan detail anime ${slug} ke cache`);
     return true;
@@ -140,7 +138,6 @@ export async function clearHomeCache(): Promise<boolean> {
   }
 
   try {
-    // Hapus semua cache home page
     const keys = await redis.keys('home:page:*');
     if (keys.length > 0) {
       await redis.del(...keys);

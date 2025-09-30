@@ -93,22 +93,19 @@ export class SamehadakuScraper {
       const html = await response.text();
       const $ = cheerio.load(html);
 
-      // Ambil informasi dari halaman detail
       const title =
         $('div.infoanime h1').text().trim() ||
         $('.entry-title').text().trim() ||
-        slug; // fallback ke slug jika tidak ditemukan
+        slug;
 
       const coverImage =
         $('div.infoanime div.thumb img').attr('src') ||
         $('.thumb img').attr('src') ||
         '';
 
-      // Cari informasi episode terbaru
       let lastEpisode: number | null = null;
       $('div.episodelist ul li').each((index, element) => {
         if (index === 0) {
-          // Ambil episode pertama dari daftar (yg terbaru)
           const episodeText = $(element).find('a').text().trim();
           const match = episodeText.match(/Episode\\s*(\\d+)/i);
           if (match) {
