@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 config();
 
 import { scrapeAllSlugs } from '../src/scrapers/slug-scraper';
-import { saveSlugsToRedis } from '../src/services/redis-service';
+import { addToSlugQueue } from '../src/services/queue-service';
 
 // -- Main Function --
 async function main() {
@@ -16,14 +16,25 @@ async function main() {
       return;
     }
 
-    console.log(`Ditemukan ${slugs.length} slug`);
+    console.log(
+      `Ditemukan ${slugs.length} slug, mulai menambahkan ke queue...`
+    );
 
-    const savedCount = await saveSlugsToRedis(slugs);
+    // Tambahkan semua slug ke queue
+    let addedCount = 0;
+    for (const { title, slug } of slugs) {
+      const success = await addToSlugQueue({ title, slug });
+      if (success) {
+        addedCount++;
+      }
+    }
 
-    console.log(`Berhasil menyimpan ${savedCount} slug ke Redis`);
+    console.log(`Berhasil menambahkan ${addedCount} slug ke queue`);
 
-    if (savedCount < slugs.length) {
-      console.log(`Gagal menyimpan ${slugs.length - savedCount} slug`);
+    if (addedCount < slugs.length) {
+      console.log(
+        `Gagal menambahkan ${slugs.length - addedCount} slug ke queue`
+      );
     }
 
     console.log('\nBeberapa slug yang ditemukan:');
