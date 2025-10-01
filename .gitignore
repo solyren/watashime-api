@@ -25,7 +25,3 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-GEMINI.md
-QWEN.md
-
